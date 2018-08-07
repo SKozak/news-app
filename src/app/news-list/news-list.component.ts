@@ -2,6 +2,8 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {NewSpotApiService} from '../new-spot-api.service';
 import {NewsDto} from './news-dto';
 import {isNullOrUndefined} from 'util';
+import * as _ from 'lodash';
+
 
 @Component({
   selector: 'app-news-list',
@@ -12,7 +14,12 @@ export class NewsListComponent implements OnInit, OnDestroy {
   newsDTO: NewsDto;
   categoryList: Array<string>;
   categorySelected = 'technology';
-  constructor(private newSpotApiService: NewSpotApiService) { }
+  lodash = _;
+  page = 1;
+  PAGE_SIZE = 6;
+
+  constructor(private newSpotApiService: NewSpotApiService) {
+  }
 
   ngOnInit() {
     this.getNews();
@@ -20,7 +27,11 @@ export class NewsListComponent implements OnInit, OnDestroy {
   }
 
   public getNews() {
-    this.newSpotApiService.getNews(this.categorySelected).subscribe((value: NewsDto) => {
+    this.getNewsFromServer(this.page, this.PAGE_SIZE);
+  }
+
+  private getNewsFromServer(page?: number, pageSize?: number) {
+    this.newSpotApiService.getNews(this.categorySelected, page, pageSize).subscribe((value: NewsDto) => {
       this.newsDTO = value;
     });
   }
@@ -41,5 +52,12 @@ export class NewsListComponent implements OnInit, OnDestroy {
       return 'http://www.pinnacleeducations.in/wp-content/uploads/2017/05/no-image.jpg';
     }
     return imageUrl;
+  }
+
+  changePage(page: number) {
+    if (page > 0 && page < this.newsDTO.totalResults / this.PAGE_SIZE) {
+      this.getNewsFromServer(page, this.PAGE_SIZE);
+      this.page = page;
+    }
   }
 }
