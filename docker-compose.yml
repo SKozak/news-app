@@ -1,0 +1,27 @@
+version: '3.3'
+services:
+  new-spot-app:
+    hostname: localhost
+    container_name: new-spot-app
+    build:
+      context: ./newSpotApp
+      dockerfile: Dockerfile
+    ports:
+      - 8082:80
+    networks:
+      - app-network
+
+  new-spot-core:
+    hostname: localhost
+    container_name: new-spot-core
+    build:
+      context: ./newSpot
+      dockerfile: Dockerfile
+    ports:
+    - 8080:8080
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
