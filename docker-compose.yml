@@ -4,7 +4,7 @@ services:
     hostname: localhost
     container_name: new-spot-app
     build:
-      context: ./newSpotApp
+      context: ./news-app
       dockerfile: Dockerfile
     ports:
       - 8082:80
