@@ -1,5 +1,7 @@
 # NewSpotApp
 
+![alt text](https://raw.githubusercontent.com/SKozak/news-app/master/screen.png)
+
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 6.1.2.
 
 ## Development server
